@@ -70,9 +70,10 @@ void main(void) {
 	vec3 p = transformed_eye + (t_hit.x + offset * dt) * ray_dir;
 	for (float t = t_hit.x; t < t_hit.y; t += dt) {
 		float val = texture(volume, p).r;
-		vec4 val_color = vec4(texture(colormap, vec2(val, 0.5)).rgb, val);
-		color.rgb += (1.0 - color.a) * val_color.a * val_color.rgb;
-		color.a += (1.0 - color.a) * val_color.a;
+		vec4 val_color = vec4(texture(colormap, vec2(val, 0.5)));
+		float alpha =  (1.0 - color.a) * val_color.a;
+		color.rgb += alpha * val_color.rgb;
+		color.a += alpha;
 		if (color.a >= 0.95) {
 			break;
 		}
